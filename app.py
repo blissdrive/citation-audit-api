@@ -18,11 +18,12 @@ def index():
 def audit():
     data = request.json
 
-    business_name = data.get("business_name")
+    business_name = data.get("business-name")
     address = data.get("address")
     phone = data.get("phone")
     website = data.get("website")
     category = data.get("category")
+    email = data.get("your-email")
 
     # Construct a prompt for GPT-4
     prompt = f"""
@@ -72,4 +73,6 @@ Thank you.
 
 # Run the server
 if __name__ == "__main__":
-    app.run(port=5000)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
