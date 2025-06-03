@@ -61,6 +61,8 @@ Thank you.
         )
 
         result = response['choices'][0]['message']['content']
+        print("📄 GPT Report:\n", result, flush=True)
+
         return jsonify({
             "success": True,
             "report": result
