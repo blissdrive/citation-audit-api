@@ -18,7 +18,7 @@ def index():
 def audit():
     try:
         data = request.json
-        print("📝 Incoming data:", data)
+        print("📝 Incoming data:", data, flush=True)
 
         # Safely extract fields with default values
         business_name = data.get("business-name", "Not Provided")
@@ -67,7 +67,7 @@ Thank you.
         })
 
     except Exception as e:
-        print("❌ ERROR:", str(e))
+        print("❌ ERROR:", str(e), flush=True)
         return jsonify({
             "success": False,
             "error": str(e)
