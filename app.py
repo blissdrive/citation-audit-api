@@ -18,11 +18,12 @@ def index():
 def audit():
     data = request.json
 
-    business_name = data.get("business_name")
-    address = data.get("address")
-    phone = data.get("phone")
-    website = data.get("website")
-    category = data.get("category")
+business_name = data.get("business-name")
+address = data.get("address")
+phone = data.get("phone")
+website = data.get("website")
+category = data.get("category")
+email = data.get("your-email")
 
     # Construct a prompt for GPT-4
     prompt = f"""
