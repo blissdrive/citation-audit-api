@@ -16,17 +16,20 @@ def index():
 
 @app.route("/audit", methods=["POST"])
 def audit():
-    data = request.json
+    try:
+        data = request.json
+        print("📝 Incoming data:", data)
 
-    business_name = data.get("business-name")
-    address = data.get("address")
-    phone = data.get("phone")
-    website = data.get("website")
-    category = data.get("category")
-    email = data.get("your-email")
+        # Safely extract fields with default values
+        business_name = data.get("business-name", "Not Provided")
+        address = data.get("address", "Not Provided")
+        phone = data.get("phone", "Not Provided")
+        website = data.get("website", "Not Provided")
+        category = data.get("category", "Not Provided")
+        email = data.get("your-email", "Not Provided")
 
-    # Construct a prompt for GPT-4
-    prompt = f"""
+        # Construct GPT prompt
+        prompt = f"""
 You are a local SEO expert. A business needs a citation audit and directory recommendations.
 
 Business Name: {business_name}
@@ -50,8 +53,6 @@ Category: {category}
 Thank you.
 """
 
-    try:
-        # Call OpenAI API
         response = openai.ChatCompletion.create(
             model="gpt-4",
             messages=[{"role": "user", "content": prompt}],
@@ -66,6 +67,7 @@ Thank you.
         })
 
     except Exception as e:
+        print("❌ ERROR:", str(e))
         return jsonify({
             "success": False,
             "error": str(e)
