@@ -28,9 +28,9 @@ def audit():
         category = data.get("category", "Not Provided")
         email = data.get("your-email", "Not Provided")
 
-        # Refined and structured GPT prompt
+         # Advanced GPT prompt with no output limits
         prompt = f"""
-You are a local SEO and citation expert. A business needs a detailed citation audit and directory suggestions.
+You are a local SEO and citation audit expert. Please generate a fully detailed citation audit report for the following business:
 
 Business Details:
 - Name: {business_name}
@@ -39,32 +39,32 @@ Business Details:
 - Website: {website}
 - Category: {category}
 
-Task:
-1. Based on the business name, website, and category, list 5–10 likely existing citations (with assumed URLs if known) in this format:
-   - Platform: [Name]
-   - URL: [Likely or known listing]
-   - Status: Likely Exists
+Your task is to research and generate a structured, comprehensive audit that includes the following:
 
-2. List 5–10 core directories the business is not yet listed on. Use this format:
-   - Platform: [Name]
-   - Description: [One-line purpose of the site]
-   - Free or Paid: [Free / Paid]
-   - URL: [submission or homepage]
+📍 Existing Citations:
+- Find and list as many known and likely existing citation listings for the business as possible.
+- Include the platform name, the assumed or known URL, and note if the listing is likely present or confirmed.
 
-3. Based on the category "{category}", list 10–20 niche citation directories relevant to the industry. For each, include:
-   - Platform Name
-   - Short Description
-   - Free or Paid
-   - URL (homepage or submission link)
+🔎 Core Citation Opportunities:
+- List every major general citation platform that businesses should be listed on.
+- For each one, include:
+  - Platform name
+  - Description
+  - Free or Paid
+  - Submission URL or homepage
 
-4. Separate each section with clear headers:
-   📍 Existing Citations  
-   🔎 Core Citation Opportunities  
-   🧠 Niche Citation Directories
+🧠 Niche Citation Directories (Based on Category):
+- Based on the category "{category}", find every relevant industry-specific citation platform or directory.
+- These should include specialized business directories, industry associations, review platforms, etc.
+- For each:
+  - Platform name
+  - Short description
+  - Free or Paid
+  - URL or submission link
 
-Only include platforms relevant to the category — do not suggest wellness/beauty directories for attorneys, landscapers, etc.
+Please be exhaustive. Include as many relevant platforms as you can in each section. Avoid any directories that are unrelated to the business category.
 
-Return the response in plain text (no HTML).
+Respond in plain text, no HTML.
 """
 
         response = openai.ChatCompletion.create(
