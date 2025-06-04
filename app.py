@@ -30,11 +30,11 @@ def audit():
         category = data.get("category", "Not Provided")
         email = data.get("your-email", "Not Provided")
 
-        # 🔁 Enhanced prompt with Markdown tables
+        # 🔁 Enhanced prompt with explicit table row counts
         prompt = f"""
-You are a local SEO expert and citation directory analyst.
+You are a local SEO expert and citation research assistant.
 
-Please generate a comprehensive citation audit and listing report in Markdown format for the following business:
+Create a detailed citation audit report for this business, formatted in Markdown. Use the following structure and follow the exact formats below:
 
 Business Details:
 - Name: {business_name}
@@ -43,26 +43,24 @@ Business Details:
 - Website: {website}
 - Category: {category}
 
-Your report must include three sections, each with a clear header and formatted tables:
-
-### 📍 Existing Citations
+1. ### 📍 Existing Citations
+Output a Markdown table with 3 columns:
 | Platform | URL | Description |
-|----------|-----|-------------|
-- List as many known or highly likely citations as possible.
+Include at least 50–100 known or likely existing citations (Google, Yelp, Facebook, BBB, MapQuest, etc.). Use assumed listing URLs if needed based on brand/location.
 
-### 🔎 Core Citation Opportunities
+2. ### 🔎 Core Citation Opportunities
+Output a Markdown table with 4 columns:
 | Platform | Description | Free or Paid | Submission URL |
-|----------|-------------|--------------|----------------|
-- List every general citation site suitable for local SEO.
+List 50–100 of the most important general citation directories for local SEO, including global and regional platforms.
 
-### 🧠 Niche Citation Directories
+3. ### 🧠 Niche Citation Directories
+Based on the category "{category}", list 50–100+ relevant industry-specific citation sites, directories, associations, or aggregators.
+Output a Markdown table with:
 | Platform | Description | Free or Paid | Submission URL |
-|----------|-------------|--------------|----------------|
-- Based on category "{category}", list all relevant niche-specific directories (25–100+).
-- Include associations, aggregators, review platforms, and industry sites.
-- Skip wellness/beauty unless the category is relevant.
 
-Return the full response as Markdown with headers and tables — no HTML, no bullet lists, no code blocks. Be exhaustive.
+Only include platforms relevant to the industry — skip wellness/beauty unless the business category is in that field.
+
+Return only Markdown. Do not use bullet points, paragraphs, or HTML. Be thorough.
 """
 
         response = openai.ChatCompletion.create(
