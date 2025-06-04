@@ -30,9 +30,11 @@ def audit():
         category = data.get("category", "Not Provided")
         email = data.get("your-email", "Not Provided")
 
-         # Advanced GPT prompt with no output limits
+        # 🔁 Enhanced prompt (unlimited output)
         prompt = f"""
-You are a local SEO and citation audit expert. Please generate a fully detailed citation audit report for the following business:
+You are a local SEO expert and citation directory analyst.
+
+Please generate a comprehensive citation audit and listing report for the following business:
 
 Business Details:
 - Name: {business_name}
@@ -41,39 +43,32 @@ Business Details:
 - Website: {website}
 - Category: {category}
 
-Your task is to research and generate a structured, comprehensive audit that includes the following:
+Your task is to return an extensive and detailed citation report broken into 3 sections:
 
 📍 Existing Citations:
-- Find and list as many known and likely existing citation listings for the business as possible.
-- Include the platform name, the assumed or known URL, and note if the listing is likely present or confirmed.
+- List all known or highly likely existing citation listings for this business.
+- Format: Platform, URL, Description
+- Include at least 10–20+ listings across review platforms, maps, directories, aggregators, and booking tools.
 
 🔎 Core Citation Opportunities:
-- List every major general citation platform that businesses should be listed on.
-- For each one, include:
-  - Platform name
-  - Description
-  - Free or Paid
-  - Submission URL or homepage
+- List every major core citation platform used in local SEO.
+- Format: Platform, Description, Free or Paid, Submission URL
+- Do not limit to just 5–10. Include as many as are appropriate globally and regionally.
 
-🧠 Niche Citation Directories (Based on Category):
-- Based on the category "{category}", find every relevant industry-specific citation platform or directory.
-- These should include specialized business directories, industry associations, review platforms, etc.
-- For each:
-  - Platform name
-  - Short description
-  - Free or Paid
-  - URL or submission link
+🧠 Niche Citation Directories:
+- Based on the category "{category}", list all niche-specific citation directories, industry platforms, associations, and aggregators.
+- Format: Platform, Short Description, Free or Paid, Submission URL
+- Include 25–100+ if applicable.
+- Only include platforms that are relevant to the category — skip beauty/wellness unless the business is in that field.
 
-Please be exhaustive. Include as many relevant platforms as you can in each section. Avoid any directories that are unrelated to the business category.
-
-Respond in plain text, no HTML.
+Return your response in plain text, no HTML. Use clear headers for each section. Be exhaustive.
 """
 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
-            max_tokens=2000
+            max_tokens=3000
         )
 
         result = response['choices'][0]['message']['content']
