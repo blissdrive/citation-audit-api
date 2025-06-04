@@ -28,36 +28,50 @@ def audit():
         category = data.get("category", "Not Provided")
         email = data.get("your-email", "Not Provided")
 
-        # Construct GPT prompt
+        # Refined and structured GPT prompt
         prompt = f"""
-You are a local SEO expert. A business needs a citation audit and directory recommendations.
+You are a local SEO and citation expert. A business needs a detailed citation audit and directory suggestions.
 
-Business Name: {business_name}
-Address: {address}
-Phone: {phone}
-Website: {website}
-Category: {category}
+Business Details:
+- Name: {business_name}
+- Address: {address}
+- Phone: {phone}
+- Website: {website}
+- Category: {category}
 
-1. Find 3 likely existing citations (e.g. Google, Yelp, MapQuest).
-2. Recommend 5 core citation directories not listed.
-3. Suggest 5 niche (beauty/wellness) citation directories.
-4. Generate a plain-text report in this format:
+Task:
+1. Based on the business name, website, and category, list 5–10 likely existing citations (with assumed URLs if known) in this format:
+   - Platform: [Name]
+   - URL: [Likely or known listing]
+   - Status: Likely Exists
 
-📍 Existing Citations:
-- Name: [Directory]
-- URL: [Assumed or Common Listing URL]
+2. List 5–10 core directories the business is not yet listed on. Use this format:
+   - Platform: [Name]
+   - Description: [One-line purpose of the site]
+   - Free or Paid: [Free / Paid]
+   - URL: [submission or homepage]
 
-✨ Citation Opportunities:
-...
+3. Based on the category "{category}", list 10–20 niche citation directories relevant to the industry. For each, include:
+   - Platform Name
+   - Short Description
+   - Free or Paid
+   - URL (homepage or submission link)
 
-Thank you.
+4. Separate each section with clear headers:
+   📍 Existing Citations  
+   🔎 Core Citation Opportunities  
+   🧠 Niche Citation Directories
+
+Only include platforms relevant to the category — do not suggest wellness/beauty directories for attorneys, landscapers, etc.
+
+Return the response in plain text (no HTML).
 """
 
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
-            max_tokens=800
+            max_tokens=2000
         )
 
         result = response['choices'][0]['message']['content']
